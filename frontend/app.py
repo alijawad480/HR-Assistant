@@ -3,7 +3,7 @@ import requests
 import uuid
 
 # --- Config ---
-API_URL = "http://localhost:8000"
+API_URL = "https://onrender.com"
 
 st.set_page_config(
     page_title="HR Document Assistant",
