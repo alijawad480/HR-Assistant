@@ -1,12 +1,7 @@
 import os
 from langchain_community.document_loaders import PyPDFLoader, TextLoader, Docx2txtLoader
 
-
 def load_documents(folder_path):
-    """
-    Load all documents from a folder.
-    Supports PDF, TXT, and DOCX files.
-    """
     documents = []
 
     if not os.path.exists(folder_path):
