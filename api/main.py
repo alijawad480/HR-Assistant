@@ -12,7 +12,7 @@ from etl.load import create_vectorstore, load_vectorstore
 from rag.chain import create_rag_chain
 from database.db import init_db, save_message, get_chat_history, get_all_sessions
 
-# --- App Setup ---
+# App Setup
 app = FastAPI(
     title="HR Document Assistant API",
     description="Upload HR documents and ask questions using RAG"
@@ -25,16 +25,16 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-# --- Folders ---
+# Folders
 UPLOAD_FOLDER = "data/documents"
 VECTORSTORE_PATH = "vectorstore/chroma_db"
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs("vectorstore", exist_ok=True)
 
-# --- Global State ---
+# Global State
 vectorstore = None
-rag_chain = None   # Single chain shared across sessions (history is per session inside chain)
+rag_chain = None  
 
 # Initialize DB on startup
 init_db()
@@ -49,13 +49,13 @@ if os.path.exists(VECTORSTORE_PATH):
         print(f"Could not load vectorstore: {e}")
 
 
-# --- Request Models ---
+# Request Models
 class QuestionRequest(BaseModel):
     question: str
     session_id: str
 
 
-# --- Endpoints ---
+# Endpoints
 
 @app.get("/")
 def home():
@@ -79,10 +79,6 @@ def new_session():
 
 @app.post("/upload")
 async def upload_document(file: UploadFile = File(...)):
-    """
-    Upload a document and run the ETL pipeline.
-    Accepted formats: PDF, TXT, DOCX
-    """
     global vectorstore, rag_chain
 
     # Check file type
@@ -120,10 +116,6 @@ async def upload_document(file: UploadFile = File(...)):
 
 @app.post("/ask")
 def ask_question(request: QuestionRequest):
-    """
-    Ask a question about the uploaded documents.
-    session_id is used to keep separate conversation history per user.
-    """
     global vectorstore, rag_chain
 
     if vectorstore is None or rag_chain is None:
@@ -169,7 +161,7 @@ def ask_question(request: QuestionRequest):
 
 @app.get("/history/{session_id}")
 def get_history(session_id: str):
-    """Get full chat history for a specific session"""
+# Get full chat history for a specific session
     history = get_chat_history(session_id)
     return {
         "session_id": session_id,
@@ -180,7 +172,7 @@ def get_history(session_id: str):
 
 @app.get("/sessions")
 def get_sessions():
-    """Get all sessions"""
+    # Get all sessions
     sessions = get_all_sessions()
     return {
         "total_sessions": len(sessions),
