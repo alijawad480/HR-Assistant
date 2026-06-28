@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 import uuid
 
-# --- Config ---
+# Config
 API_URL = "https://onrender.com"
 
 st.set_page_config(
@@ -11,7 +11,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- Session State Setup ---
+# Session State Setup
 if "session_id" not in st.session_state:
     st.session_state.session_id = str(uuid.uuid4())
 
@@ -22,7 +22,7 @@ if "doc_uploaded" not in st.session_state:
     st.session_state.doc_uploaded = False
 
 
-# --- Helper Functions ---
+# Helper Functions
 def check_api_status():
     try:
         response = requests.get(f"{API_URL}/health", timeout=3)
@@ -46,12 +46,12 @@ def ask_question(question, session_id):
     return response
 
 
-# --- Page Header ---
+# Page Header
 st.title("📄 HR Document Assistant")
 st.caption("Upload your HR documents and ask questions in plain English")
 st.divider()
 
-# --- Sidebar ---
+# Sidebar
 with st.sidebar:
     st.header("⚙️ Settings")
 
@@ -105,7 +105,7 @@ with st.sidebar:
     st.caption("Built with LangChain + FastAPI + ChromaDB")
 
 
-# --- Main Chat Area ---
+# Main Chat Area
 col1, col2 = st.columns([3, 1])
 
 with col1:
