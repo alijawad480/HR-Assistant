@@ -2,8 +2,6 @@ import os
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import HumanMessage, AIMessage
-
-# FIX: Point directly to the langchain_classic bridge package you just installed
 from langchain_classic.chains import create_retrieval_chain
 from langchain_classic.chains.combine_documents import create_stuff_documents_chain
 
@@ -19,7 +17,7 @@ session_histories = {}
 
 
 def get_session_history(session_id: str) -> BaseChatMessageHistory:
-    """Get or create chat history for a session"""
+    #Get or create chat history for a session
     if session_id not in session_histories:
         session_histories[session_id] = ChatMessageHistory()
     return session_histories[session_id]
@@ -37,8 +35,6 @@ def get_llm():
 
 def create_rag_chain(vectorstore):
     """
-    Create a conversational RAG chain using the modern LangChain approach.
-
     How it works:
     1. User asks a question
     2. Retriever fetches relevant chunks from vectorstore
